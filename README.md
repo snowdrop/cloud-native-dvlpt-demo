@@ -98,10 +98,13 @@ open $LAUNCH_URL
 
 1) Demo DevTooling (= Fmp, /launcher, s2i build)
 
-- we use /launcher to select a Spring Boot app, a mission
-- download the zip, unzip, 
-- create a project on OCP, 
-- then start fmp to do s2i build on OCP (show to the user what happen using OCP UI)
+- We use `/launcher` to select Spring Boot Mission `JPA Client`
+- The project generated is downloaded, unzipped, 
+- Then, we create a new project on OCP `my-demo`, 
+- Then we build the project to deploy it
+```bash
+mvn package fabric8:deploy
+```
 
 2) Demo Services offered by the platform (= Service Discovery, Service Catalog), TO BE VALIDATED,
 
