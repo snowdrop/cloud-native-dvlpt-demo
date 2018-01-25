@@ -57,7 +57,7 @@ git commit -m "Changes" -a
 git push    
 ```
 
-- Launcher installed
+- Create your "my-Launcher"
 
 ```bash
 ./deploy_launcher.sh -p my-launcher -i admin:admin \
@@ -65,7 +65,7 @@ git push
                      -c https://github.com/cmoulliard/booster-catalog.git
 ```
 
-- Istio 0.4.0 installed
+- Install Istio 0.4.0
 
 ```bash
 pushd $(mktemp -d)
@@ -78,7 +78,7 @@ echo "$JSON" > temp.json
 ansible-playbook main.yml -e "@temp.json"
 rm temp.json
 ```
-- Ansible Service Catalog installed
+- Install Ansible Service Catalog
 
 ```bash
 oc new-project ansible-service-broker
