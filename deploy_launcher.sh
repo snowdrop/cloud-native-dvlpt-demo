@@ -69,6 +69,7 @@ echo "------------------------------------------"
 # -p LAUNCHPAD_KEYCLOAK_REALM=fabric8 \
 echo "------------------ Create launch pad mission application ---------------------"
 oc new-app launchpad -n $PROJECTNAME \
+    -p LAUNCHPAD_BACKEND_CATALOG_GIT_REF="master" \
     -p LAUNCHPAD_BACKEND_CATALOG_GIT_REPOSITORY=$CATALOG \
     -p LAUNCHPAD_MISSIONCONTROL_GITHUB_USERNAME=${GITHUB_IDENTITY[0]} \
     -p LAUNCHPAD_MISSIONCONTROL_GITHUB_TOKEN=${GITHUB_IDENTITY[1]} \
