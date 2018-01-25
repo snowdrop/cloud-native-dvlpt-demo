@@ -5,10 +5,33 @@
 - MiniShift created with 5Gb, OCP 3.7
 
 ```bash
-
+ISTIO_VERSION=${1:-0.4.0}
+docker_images=(
+  istio/istio-ca:$ISTIO_VERSION
+  istio/grafana:$ISTIO_VERSION
+  istio/pilot:$ISTIO_VERSION
+  istio/proxy_debug:$ISTIO_VERSION
+  istio/proxy_init:$ISTIO_VERSION
+  istio/mixer:$ISTIO_VERSION
+  istio/servicegraph:$ISTIO_VERSION
+  prom/statsd-exporter:v0.5.0
+  prom/prometheus:v2.0.0
+  alpine:latest
+  jaegertracing/all-in-one:latest
+)
+IMAGES=$(printf "%s " "${docker_images[@]}")
+minishift profile set istio
+minishift --profile istio config set memory 4GB
+minishift --profile istio config set openshift-version v3.7.1
+minishift --profile istio config set vm-driver xhyve
+minishift --profile istio addon enable admin-user
+minishift config set image-caching true
+minishift image cache-config add $IMAGES
+export MINISHIFT_ENABLE_EXPERIMENTAL=y
+minishift start --profile istio --service-catalog
 ```
 
-- Add your own Github booster to the catalog
+- Add your own Github booster(s) to the catalog
 
 ```bash
 git clone git@github.com:cmoulliard/booster-catalog.git && cd booster-catalog
@@ -58,7 +81,8 @@ rm temp.json
 - Ansible Service Catalog installed
 
 ```bash
-
+oc new-project ansible-service-broker
+curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/templates/simple-broker-template.yaml | oc process -n "ansible-service-broker" -f - | oc create -f -
 ```
 
 ## Test Launcher
