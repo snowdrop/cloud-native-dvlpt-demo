@@ -61,7 +61,8 @@ git push
 
 ```bash
 ./deploy_launcher.sh -p my-launcher -i admin:admin \
-                     -g cmoulliard:0c19e98e0fab52588c615d07ea32f3d7afc61ee0 \
+                     -g user:xxxx \
+                     -v master \
                      -c https://github.com/cmoulliard/booster-catalog.git
 ```
 
