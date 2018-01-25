@@ -38,7 +38,7 @@ git clone git@github.com:cmoulliard/booster-catalog.git && cd booster-catalog
 mkdir -p jpa/spring-boot/community
 touch jpa/spring-boot/community/spring-boot-jpa-community.yaml
 # echo to the file (TODO)
-githubRepo: https://github.com/cmoulliard/spring-boot-jpa-rest
+githubRepo: cmoulliard/spring-boot-jpa-rest
 gitRef: master
 
 # echo edit metadata
