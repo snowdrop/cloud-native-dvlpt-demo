@@ -2,7 +2,7 @@
 
 ## Prerequisite
 
-- MiniShift created with 5Gb, OCP 3.7
+- MiniShift created with OCP 3.7.1 and launched using experimental features
 
 ```bash
 ISTIO_VERSION=${1:-0.4.0}
