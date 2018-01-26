@@ -6,8 +6,8 @@
 #
 # where commands are:
 # istio version       Version of istio to be used. Default to 0.4.0
-# ocp version         Version of Openshift Origin. Default to : 3.7.1
-# imageCache          Enable or disable to use docker imges cached from the disk. Default is false
+# ocp version         Version of OpenShift Origin. Default to : 3.7.1
+# imageCache          Enable or disable to use docker images cached on the local user's disk. Default is false
 #
 # ./bootstrap_vm.sh 0.4.0 3.7.1 true
 #

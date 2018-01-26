@@ -53,51 +53,71 @@ rm temp.json
 
 ## Demo Scenario
 
-1) Use launcher to generate a front zip
+1) Use launcher to generate a Cloud Native Demo - Front zip
 
-- Use `/launcher` to select Spring Boot Mission `Cloud Native Demo Front`
+- Use `/launcher` to select Spring Boot Runtime, next the `Cloud Native Demo Front` mission
 
-TODO
+- Select `Download zip` workflow
+- Accept the by default values for GAVs
+- Click on the `zip` button to download the project generated
+- Next, unzip it
+```bash
+mkdir -p cloud-native-demo
+cd cloud-native-demo
+mv ~/Downloads/booster-demo-front-spring-boot.zip .
+unzip booster-demo-front-spring-boot.zip
+cd booster-demo-front-spring-boot
+```
+
+- Build, launch spring-boot locally to test if the front can be used in your browser
+```bash
+mvn clean spring-boot:run 
+```
+- Create a new OpenShift project on OCP
+```bash
+oc new-project cnd-demo
+```
+- Deploy the application on the cloud platform using the `s2i` build process
+```bash
+mvn package fabric8:deploy -Popenshift
+```
 
 2) Create a MySQL service instance using the Service Catalog
 
-! Use the Web UI to create the Service and bind it. Alternatively, execute the following commands with the backend folder
-
-1. Create a Service Instance
+! Use the Web UI to create the Service and bind it. 
+Alternatively, execute the following command with the backend folder in order to create a serviceInstance for MySQL
 
 ```bash
 oc create -f openshift/mysql_serviceinstance.yml
 ```
 
-3) Use launcher to generate a backend zip
+3) Use launcher to generate a Cloud Native Demo - Backend zip
    
-- Use `/launcher` to select Spring Boot Mission `Cloud Native Demo Backend`
-
-- The project generated is downloaded, unzipped 
+- Use `/launcher` to select Spring Boot Runtime, next the `Cloud Native Demo Backend` mission
+- Select `Download zip` workflow
+- Accept the by default values for GAVs
+- Click on the `zip` button to download the project generated
+- Next, unzip it
 ```bash
-mkdir -p cloud-native-demo
 cd cloud-native-demo
-mv /Users/dabou/Downloads/booster-demo-backend-spring-boot.zip .
+mv ~/Downloads/booster-demo-backend-spring-boot.zip .
 unzip booster-demo-backend-spring-boot.zip
 cd booster-demo-backend-spring-boot
 ```
-- Test it locally
+- Build, launch spring-boot locally to test the in-memory H2 database
 ```bash
 mvn clean spring-boot:run -Dspring.profiles.active=local -Ph2
 curl -k http://localhost:8080/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
 curl -k http://localhost:8080/api/notes/1
 ```
-- Create a new OpenShift project on OCP
+
+- Deploy the application on the cloud platform using the `s2i` build process
 ```bash
-oc new-project cnd-demo
-```
-- Deploy it using `s2i` build process
-```bash
+oc project cnd-demo
 mvn package fabric8:deploy -Popenshift
 ```
-
-- Wait till the build and deployment is completed !!
+- Wait till the build and deployment are completed !!
 
 - Bind the credentials of the ServiceInstances to a Secret
 
