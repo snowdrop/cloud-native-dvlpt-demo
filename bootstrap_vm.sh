@@ -61,20 +61,20 @@ if [ ! -d "$ISTIO_PROFILE_DIR" ]; then
   minishift --profile istio addon enable ansible-service-broker
 fi
 
-# minishift config set image-caching true
-#
-# if [ "$IMAGE_CACHE" = true ] ; then
-#   minishift image cache-config add $IMAGES
-# fi
-#
-# MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --profile istio --service-catalog --iso-url centos
-#
-# if [ "$IMAGE_CACHE" = true ] ; then
-#   # Export images to be sure to have a backup locally
-#   minishift image export
-# fi
-#
-# echo "Log to OpenShift using admin user"
-# oc login -u system:admin
-# oc adm policy add-cluster-role-to-user cluster-admin admin
-# oc login -u admin -p admin
+minishift config set image-caching true
+
+if [ "$IMAGE_CACHE" = true ] ; then
+  minishift image cache-config add $IMAGES
+fi
+
+MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --profile istio --service-catalog --iso-url centos
+
+if [ "$IMAGE_CACHE" = true ] ; then
+  # Export images to be sure to have a backup locally
+  minishift image export
+fi
+
+echo "Log to OpenShift using admin user"
+oc login -u system:admin
+oc adm policy add-cluster-role-to-user cluster-admin admin
+oc login -u admin -p admin
