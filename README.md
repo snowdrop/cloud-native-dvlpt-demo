@@ -32,9 +32,15 @@ open $LAUNCH_URL
 
 1) Use launcher to generate a Cloud Native Demo - Front zip
 
-- From the first screen, click on `launch` button
+- From the `launncher application` screen, click on `launch` button
+
+![](image/launcher.png)
+
 - Within the deployment type screen, click on the button `I will build and run locally`
 - Next, select your mission : `Cloud Native Development - Demo Backend : JPA Persistence`
+
+![](image/missions.png)
+
 - And the `Spring Boot Runtime`
 - Accept the `Project Info`
 - Finally click on the button Select `Download as zip file`d
@@ -75,6 +81,9 @@ oc create -f openshift/mysql_serviceinstance.yml
 - From the first screen, click on `launch` button
 - Within the deployment type screen, click on the button `I will build and run locally`
 - Next, select your mission : `Cloud Native Development - Demo Front`
+
+![](image/missions.png)
+
 - And the `Spring Boot Runtime`
 - Accept the `Project Info`
 - Finally click on the button Select `Download as zip file`
@@ -122,6 +131,8 @@ oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
 to add the secret to the Deployment Config of your application
 
 - Wait till the pod is recreated and then test the service
+
+![](image/front-db.png)
 
 ```bash
 export BACKEND=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}' -n cnd-demo)
