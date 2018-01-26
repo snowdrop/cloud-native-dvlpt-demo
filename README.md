@@ -17,7 +17,7 @@
                      -i admin:admin \
                      -g user:xxxx \
                      -v master \
-                     -c https://github.com/cmoulliard/booster-catalog.git
+                     -c https://github.com/snowdrop/cloud-native-catalog.git
 ```
 
 - Install Istio 0.4.0
