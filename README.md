@@ -5,46 +5,25 @@
 - MiniShift created with OCP 3.7.1 and launched using experimental features
 
 ```bash
-ISTIO_VERSION=${1:-0.4.0}
-docker_images=(
-  istio/istio-ca:$ISTIO_VERSION
-  istio/grafana:$ISTIO_VERSION
-  istio/pilot:$ISTIO_VERSION
-  istio/proxy_debug:$ISTIO_VERSION
-  istio/proxy_init:$ISTIO_VERSION
-  istio/mixer:$ISTIO_VERSION
-  istio/servicegraph:$ISTIO_VERSION
-  prom/statsd-exporter:v0.5.0
-  prom/prometheus:v2.0.0
-  alpine:latest
-  jaegertracing/all-in-one:latest
-)
-IMAGES=$(printf "%s " "${docker_images[@]}")
-minishift profile set istio
-minishift --profile istio config set memory 4GB
-minishift --profile istio config set openshift-version v3.7.1
-minishift --profile istio config set vm-driver xhyve
-minishift --profile istio addon enable admin-user
-minishift config set image-caching true
-minishift image cache-config add $IMAGES
-export MINISHIFT_ENABLE_EXPERIMENTAL=y
-minishift start --profile istio --service-catalog
+./bootstrap_vm.sh
 ```
 
 - Add your own Github booster(s) to the catalog
 
 ```bash
 git clone git@github.com:cmoulliard/booster-catalog.git && cd booster-catalog
-mkdir -p jpa/spring-boot/community
-touch jpa/spring-boot/community/spring-boot-jpa-community.yaml
-# echo to the file (TODO)
+mkdir -p jpa/spring-boot/community 
+
+cat > jpa/spring-boot/community/spring-boot-jpa-community.yaml << EOF
 githubRepo: cmoulliard/spring-boot-jpa-rest
 gitRef: master
+EOF
 
+TODO
 # echo edit metadata
 {
     "missions":[
-        {"id": "jpa", "name":"JPA Persistence"},
+        {"id": "jpa", "name":"JPA Persistence"}, # TO BE INSERTED
         {"id": "configmap", "name":"Externalized Configuration"},
         {"id": "crud", "name":"CRUD"},
         {"id": "health-check", "name":"Health Check"},
@@ -60,7 +39,8 @@ git push
 - Create your "my-Launcher"
 
 ```bash
-./deploy_launcher.sh -p my-launcher -i admin:admin \
+./deploy_launcher.sh -p my-launcher \
+                     -i admin:admin \
                      -g user:xxxx \
                      -v master \
                      -c https://github.com/cmoulliard/booster-catalog.git
