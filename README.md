@@ -69,27 +69,6 @@ TODO
 oc create -f openshift/mysql_serviceinstance.yml
 ```
 
-5. Create a new app on the cloud platform
-
-```bash
-oc new-app -f openshift/spring-boot-db-notes_template.yml
-```
-
-6. Start the build using project's source
-
-```bash
-oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
-```
-
-7. Bind the credentials of the ServiceInstances to a Secret
-
-The following file will allow to access the credentials of the MySQL ServiceInstance. Upon creation, the Service Catalog controller will create a Kubernetes Secret containing connection details
-and credentials for the Service Instance, which can be mounted into Pods.
-
-```bash
-oc create -f openshift/mysql-secret_servicebinding.yml
-```
-
 3) Use launcher to generate a backend zip
    
 - Use `/launcher` to select Spring Boot Mission `Cloud Native Demo Backend`
@@ -119,6 +98,13 @@ mvn package fabric8:deploy -Popenshift
 ```
 
 - Wait till the build and deployment is completed !!
+
+- Bind the credentials of the ServiceInstances to a Secret
+
+```bash
+oc create -f openshift/mysql-secret_servicebinding.yml
+```
+
 - Next, mount the secret of the MySQL service to the `Deploymentconfig` of the backend
 
 ```bash
