@@ -8,8 +8,6 @@
 ./bootstrap_vm.sh
 ```
 
-- 
-
 - Install your "my-Launcher"
 
 ```bash

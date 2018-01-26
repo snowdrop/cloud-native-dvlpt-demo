@@ -37,6 +37,8 @@ docker_images=(
   openshift/origin-sti-builder:v$OCP_VERSION
   fabric8/s2i-java:2.0
   fabric8/configmapcontroller:2.3.7
+  quay.io/coreos/etcd:latest
+  ansibleplaybookbundle/origin-ansible-service-broker:latest
 )
 IMAGES=$(printf "%s " "${docker_images[@]}")
 
