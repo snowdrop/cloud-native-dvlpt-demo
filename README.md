@@ -10,12 +10,20 @@
 
 - Install your "my-Launcher"
 
+Replace the `gitUsername` and `gitPassword` with youor github account and git token.
+
 ```bash
 ./deploy_launcher.sh -p my-launcher \
                      -i admin:admin \
-                     -g user:xxxx \
-                     -v master \
+                     -g gitUsername:gitPassword \
                      -c https://github.com/snowdrop/cloud-native-catalog.git
+```
+
+- Install Ansible Service Catalog
+
+```bash
+oc new-project ansible-service-broker
+curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/templates/simple-broker-template.yaml | oc process -n "ansible-service-broker" -f - | oc create -f -
 ```
 
 - Install Istio 0.4.0
@@ -30,12 +38,6 @@ export JSON='{"cluster_flavour": "ocp","istio": {"release_tag_name": "0.4.0, "au
 echo "$JSON" > temp.json
 ansible-playbook main.yml -e "@temp.json"
 rm temp.json
-```
-- Install Ansible Service Catalog
-
-```bash
-oc new-project ansible-service-broker
-curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/templates/simple-broker-template.yaml | oc process -n "ansible-service-broker" -f - | oc create -f -
 ```
 
 ## Test Launcher
