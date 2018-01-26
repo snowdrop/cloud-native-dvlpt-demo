@@ -8,35 +8,9 @@
 ./bootstrap_vm.sh
 ```
 
-- Add your own Github booster(s) to the catalog
+- 
 
-```bash
-git clone git@github.com:cmoulliard/booster-catalog.git && cd booster-catalog
-mkdir -p jpa/spring-boot/community 
-
-cat > jpa/spring-boot/community/spring-boot-jpa-community.yaml << EOF
-githubRepo: cmoulliard/spring-boot-jpa-rest
-gitRef: master
-EOF
-
-TODO
-# echo edit metadata
-{
-    "missions":[
-        {"id": "jpa", "name":"JPA Persistence"}, # TO BE INSERTED
-        {"id": "configmap", "name":"Externalized Configuration"},
-        {"id": "crud", "name":"CRUD"},
-        {"id": "health-check", "name":"Health Check"},
-        {"id": "rest-http", "name":"REST API Level 0"},
-        {"id": "rest-http-secured", "name":"Secured"},
-        {"id": "circuit-breaker", "name":"Circuit Breaker"}
-    ],
-...    
-git commit -m "Changes" -a
-git push    
-```
-
-- Create your "my-Launcher"
+- Install your "my-Launcher"
 
 ```bash
 ./deploy_launcher.sh -p my-launcher \
