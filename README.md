@@ -50,6 +50,7 @@ cd booster-demo-front-spring-boot
 - Build, launch spring-boot locally to test if the front can be used in your browser
 ```bash
 mvn clean spring-boot:run 
+open http://localhost:8090
 ```
 - Create a new OpenShift project on OCP
 ```bash
@@ -117,10 +118,13 @@ oc create -f openshift/mysql-secret_servicebinding.yml
 oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
 ```
 
+**NOTE**: If you create the service using the UI, then find the secret name of the DB and next click on the `add to application` button
+to add the secret to the Deployment Config of your application
+
 - Wait till the pod is recreated and then test the service
 
 ```bash
-export BACKEND=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
+export BACKEND=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}' -n cnd-demo)
 curl -k $BACKEND/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
 curl -k $BACKEND/api/notes/1
