@@ -55,12 +55,13 @@ rm temp.json
 
 1) Use launcher to generate a Cloud Native Demo - Front zip
 
-- Use `/launcher` to select Spring Boot Runtime, next the `Cloud Native Demo Front` mission
-
-- Select `Download zip` workflow
-- Accept the by default values for GAVs
-- Click on the `zip` button to download the project generated
-- Next, unzip it
+- From the first screen, click on `launch` button
+- Within the deployment type screen, click on the button `I will build and run locally`
+- Next, select your mission : `Cloud Native Development - Demo Backend : JPA Persistence`
+- And the `Spring Boot Runtime`
+- Accept the `Project Info`
+- Finally click on the button Select `Download as zip file`d
+- Unzip the project generated
 ```bash
 mkdir -p cloud-native-demo
 cd cloud-native-demo
@@ -93,11 +94,13 @@ oc create -f openshift/mysql_serviceinstance.yml
 
 3) Use launcher to generate a Cloud Native Demo - Backend zip
    
-- Use `/launcher` to select Spring Boot Runtime, next the `Cloud Native Demo Backend` mission
-- Select `Download zip` workflow
-- Accept the by default values for GAVs
-- Click on the `zip` button to download the project generated
-- Next, unzip it
+- From the first screen, click on `launch` button
+- Within the deployment type screen, click on the button `I will build and run locally`
+- Next, select your mission : `Cloud Native Development - Demo Front`
+- And the `Spring Boot Runtime`
+- Accept the `Project Info`
+- Finally click on the button Select `Download as zip file`
+- Unzip the project generated
 ```bash
 cd cloud-native-demo
 mv ~/Downloads/booster-demo-backend-spring-boot.zip .
@@ -114,8 +117,14 @@ curl -k http://localhost:8080/api/notes/1
 
 - Deploy the application on the cloud platform using the `s2i` build process
 ```bash
-oc project cnd-demo
-mvn package fabric8:deploy -Popenshift
+oc new-project cnd-demo
+oc new-app -f openshift/spring-boot-db-notes_template.yml
+```
+
+- Start the build using project's source
+  
+```bash
+oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
 ```
 - Wait till the build and deployment are completed !!
 

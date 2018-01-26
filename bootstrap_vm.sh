@@ -57,12 +57,19 @@ fi
 
 minishift config set image-caching true
 
+if [ ! -d "minishift-addons" ]; then
+  git clone https://github.com/eriknelson/minishift-addons.git
+  minishift addons install minishift-addons/add-ons/ansible-service-broker
+  minishift addons enable ansible-service-broker
+  minishift addons apply ansible-service-broker
+fi
+
 if [ "$IMAGE_CACHE" = true ] ; then
   minishift image cache-config add $IMAGES
 fi
 
 #minishift start --profile istio
-MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --profile istio --service-catalog
+MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --profile istio --service-catalog --iso-url centos
 
 if [ "$IMAGE_CACHE" = true ] ; then
   # Export images to be sure to have a backup locally
