@@ -32,7 +32,7 @@ open $LAUNCH_URL
 
 1) Use launcher to generate a Cloud Native Demo - Front zip
 
-- From the `launncher application` screen, click on `launch` button
+- From the `launcher application` screen, click on `launch` button
 
 ![](image/launcher.png)
 
