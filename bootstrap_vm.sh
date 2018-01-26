@@ -43,6 +43,7 @@ docker_images=(
   openshiftio/launchpad-frontend:v12
   openshiftio/launchpad-missioncontrol:v13
   openshiftio/launchpad-frontend:latest
+  registry.access.redhat.com/rhscl/mysql-57-rhel7:latest
 )
 IMAGES=$(printf "%s " "${docker_images[@]}")
 
