@@ -39,6 +39,10 @@ docker_images=(
   fabric8/configmapcontroller:2.3.7
   quay.io/coreos/etcd:latest
   ansibleplaybookbundle/origin-ansible-service-broker:latest
+  openshiftio/launchpad-backend:v12
+  openshiftio/launchpad-frontend:v12
+  openshiftio/launchpad-missioncontrol:v13
+  openshiftio/launchpad-nginx
 )
 IMAGES=$(printf "%s " "${docker_images[@]}")
 

@@ -26,7 +26,18 @@ oc new-project ansible-service-broker
 curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/templates/simple-broker-template.yaml | oc process -n "ansible-service-broker" -f - | oc create -f -
 ```
 
-- Install Istio 0.4.0
+## Test Launcher
+
+Open the `launcher` route hostname
+
+```bash
+LAUNCH_URL="http://$(oc get route/launchpad-nginx -n my-launcher -o jsonpath="{.spec.host}")"
+open $LAUNCH_URL
+```
+
+## Istio
+
+Install Istio 0.4.0
 
 ```bash
 pushd $(mktemp -d)
@@ -38,15 +49,6 @@ export JSON='{"cluster_flavour": "ocp","istio": {"release_tag_name": "0.4.0, "au
 echo "$JSON" > temp.json
 ansible-playbook main.yml -e "@temp.json"
 rm temp.json
-```
-
-## Test Launcher
-
-Open the `launcher` route hostname
-
-```bash
-LAUNCH_URL="http://$(oc get route/launchpad-nginx -n my-launcher -o jsonpath="{.spec.host}")"
-open $LAUNCH_URL
 ```
 
 ## Demo Scenario
