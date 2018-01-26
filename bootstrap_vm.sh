@@ -37,7 +37,7 @@ docker_images=(
   openshift/origin-sti-builder:v$OCP_VERSION
   fabric8/s2i-java:2.0
   fabric8/configmapcontroller:2.3.7
-  registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift
+  registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:latest
   quay.io/coreos/etcd:latest
   ansibleplaybookbundle/origin-ansible-service-broker:latest
   openshiftio/launchpad-backend:v12
@@ -47,28 +47,26 @@ docker_images=(
 )
 IMAGES=$(printf "%s " "${docker_images[@]}")
 
+if [ ! -d "minishift-addons" ]; then
+  git clone -b asb-updates https://github.com/eriknelson/minishift-addons.git
+  minishift addons install minishift-addons/add-ons/ansible-service-broker
+fi
+
 if [ ! -d "$ISTIO_PROFILE_DIR" ]; then
   minishift profile set istio
   minishift --profile istio config set memory 5GB
   minishift --profile istio config set openshift-version v$OCP_VERSION
   minishift --profile istio config set vm-driver xhyve
   minishift --profile istio addon enable admin-user
+  minishift --profile istio addon enable ansible-service-broker
 fi
 
 minishift config set image-caching true
-
-if [ ! -d "minishift-addons" ]; then
-  git clone https://github.com/eriknelson/minishift-addons.git
-  minishift addons install minishift-addons/add-ons/ansible-service-broker
-  minishift addons enable ansible-service-broker
-  minishift addons apply ansible-service-broker
-fi
 
 if [ "$IMAGE_CACHE" = true ] ; then
   minishift image cache-config add $IMAGES
 fi
 
-#minishift start --profile istio
 MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --profile istio --service-catalog --iso-url centos
 
 if [ "$IMAGE_CACHE" = true ] ; then

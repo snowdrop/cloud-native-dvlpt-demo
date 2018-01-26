@@ -118,7 +118,7 @@ curl -k http://localhost:8080/api/notes/1
 - Deploy the application on the cloud platform using the `s2i` build process
 ```bash
 oc new-project cnd-demo
-oc new-app -f openshift/spring-boot-db-notes_template.yml
+oc new-app -f openshift/cloud-native-demo_backend_template.yml
 ```
 
 - Start the build using project's source
@@ -143,10 +143,10 @@ oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
 - Wait till the pod is recreated and then test the service
 
 ```bash
-export HOST=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
-curl -k $HOST/api/notes 
-curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $HOST/api/notes 
-curl -k $HOST/api/notes/1
+export BACKEND=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
+curl -k $BACKEND/api/notes 
+curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
+curl -k $BACKEND/api/notes/1
 ```
 
 
