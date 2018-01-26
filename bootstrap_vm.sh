@@ -37,8 +37,9 @@ fi
 
 minishift config set image-caching true
 minishift image cache-config add $IMAGES
-#export MINISHIFT_ENABLE_EXPERIMENTAL=y
-minishift start --profile istio #--service-catalog
+
+minishift start --profile istio
+#MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --profile istio --service-catalog
 
 # Export images to be sure to have a backup locally
 minishift image export
