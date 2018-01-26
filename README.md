@@ -53,27 +53,85 @@ rm temp.json
 
 ## Demo Scenario
 
-1) Demo DevTooling (= Fmp, /launcher, s2i build)
+1) Use launcher to generate a front zip
 
-- We use `/launcher` to select Spring Boot Mission `JPA Client`
-- The project generated is downloaded, unzipped, 
-- Then, we create a new project on OCP `my-demo`, 
-- Then we build the project to deploy it
+- Use `/launcher` to select Spring Boot Mission `Cloud Native Demo Front`
+
+TODO
+
+2) Create a MySQL service instance using the Service Catalog
+
+! Use the Web UI to create the Service and bind it
+
+1. Create a Service Instance
+
 ```bash
-mvn package fabric8:deploy
+oc create -f openshift/mysql_serviceinstance.yml
 ```
 
-2) Demo Services offered by the platform (= Service Discovery, Service Catalog), TO BE VALIDATED,
+5. Create a new app on the cloud platform
 
-- Select another mission from the /launcher = could be this project adapted -> https://github.com/cmoulliard/spring-boot-jpa-rest/
-- Download/unzip/deploy 
-- Appply service yaml files to bind to a DB. 
-- Change the first microservice to let it to access the second
+```bash
+oc new-app -f openshift/spring-boot-db-notes_template.yml
+```
 
-Then now we have 3 apps running on the platform
+6. Start the build using project's source
 
-3) Demo routing feature (= Istio = ServiceMesh) 
-add a route or policy and show what changed to the user
+```bash
+oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
+```
+
+7. Bind the credentials of the ServiceInstances to a Secret
+
+The following file will allow to access the credentials of the MySQL ServiceInstance. Upon creation, the Service Catalog controller will create a Kubernetes Secret containing connection details
+and credentials for the Service Instance, which can be mounted into Pods.
+
+```bash
+oc create -f openshift/mysql-secret_servicebinding.yml
+```
+
+8. Mount the secret within the Deploymentconfig
+
+```bash
+oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
+```
+
+9. Wait till the pod is recreated and then test the service
+
+```bash
+export HOST=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
+curl -k $HOST/api/notes 
+curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $HOST/api/notes 
+curl -k $HOST/api/notes/1
+```
+
+3) Use launcher to generate a backend zip
+   
+   - Use `/launcher` to select Spring Boot Mission `Cloud Native Demo Backend`
+
+- The project generated is downloaded, unzipped 
+```bash
+mkdir -p cloud-native-demo
+cd cloud-native-demo
+mv /Users/dabou/Downloads/booster-demo-backend-spring-boot.zip .
+unzip booster-demo-backend-spring-boot.zip
+cd booster-demo-backend-spring-boot
+```
+- Test it locally
+```bash
+mvn clean spring-boot:run -Dspring.profiles.active=local -Ph2
+curl -k http://localhost:8080/api/notes 
+curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
+curl -k http://localhost:8080/api/notes/1
+```
+- Then, create a new Openshift project on OCP
+```bash
+oc new-project cnd-demo
+```
+- Then we deploy it using `s2i` build process
+```bash
+mvn package fabric8:deploy -Popenshift
+```
 
 
 

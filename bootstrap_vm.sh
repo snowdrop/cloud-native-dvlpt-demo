@@ -42,7 +42,7 @@ docker_images=(
   openshiftio/launchpad-backend:v12
   openshiftio/launchpad-frontend:v12
   openshiftio/launchpad-missioncontrol:v13
-  openshiftio/launchpad-nginx
+  openshiftio/launchpad-frontend:latest
 )
 IMAGES=$(printf "%s " "${docker_images[@]}")
 
