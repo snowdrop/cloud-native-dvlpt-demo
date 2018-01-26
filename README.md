@@ -61,7 +61,7 @@ TODO
 
 2) Create a MySQL service instance using the Service Catalog
 
-! Use the Web UI to create the Service and bind it
+! Use the Web UI to create the Service and bind it. Alternatively, execute the following commands with the backend folder
 
 1. Create a Service Instance
 
@@ -90,24 +90,9 @@ and credentials for the Service Instance, which can be mounted into Pods.
 oc create -f openshift/mysql-secret_servicebinding.yml
 ```
 
-8. Mount the secret within the Deploymentconfig
-
-```bash
-oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
-```
-
-9. Wait till the pod is recreated and then test the service
-
-```bash
-export HOST=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
-curl -k $HOST/api/notes 
-curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $HOST/api/notes 
-curl -k $HOST/api/notes/1
-```
-
 3) Use launcher to generate a backend zip
    
-   - Use `/launcher` to select Spring Boot Mission `Cloud Native Demo Backend`
+- Use `/launcher` to select Spring Boot Mission `Cloud Native Demo Backend`
 
 - The project generated is downloaded, unzipped 
 ```bash
@@ -124,13 +109,29 @@ curl -k http://localhost:8080/api/notes
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' http://localhost:8080/api/notes 
 curl -k http://localhost:8080/api/notes/1
 ```
-- Then, create a new Openshift project on OCP
+- Create a new OpenShift project on OCP
 ```bash
 oc new-project cnd-demo
 ```
-- Then we deploy it using `s2i` build process
+- Deploy it using `s2i` build process
 ```bash
 mvn package fabric8:deploy -Popenshift
+```
+
+- Wait till the build and deployment is completed !!
+- Next, mount the secret of the MySQL service to the `Deploymentconfig` of the backend
+
+```bash
+oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
+```
+
+- Wait till the pod is recreated and then test the service
+
+```bash
+export HOST=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}')
+curl -k $HOST/api/notes 
+curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $HOST/api/notes 
+curl -k $HOST/api/notes/1
 ```
 
 
