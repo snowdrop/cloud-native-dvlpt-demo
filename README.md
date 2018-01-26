@@ -28,22 +28,6 @@ LAUNCH_URL="http://$(oc get route/launchpad-nginx -n my-launcher -o jsonpath="{.
 open $LAUNCH_URL
 ```
 
-## Istio
-
-Install Istio 0.4.0
-
-```bash
-pushd $(mktemp -d)
-echo "Git clone ansible project to install istio distro, project on openshift"
-git clone https://github.com/istio/istio.git && cd istio/install/ansible
-
-export ISTIO_VERSION=0.4.0 #or whatever version you prefer
-export JSON='{"cluster_flavour": "ocp","istio": {"release_tag_name": "0.4.0, "auth": false}}'
-echo "$JSON" > temp.json
-ansible-playbook main.yml -e "@temp.json"
-rm temp.json
-```
-
 ## Demo Scenario
 
 1) Use launcher to generate a Cloud Native Demo - Front zip
@@ -142,5 +126,20 @@ curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note"
 curl -k $BACKEND/api/notes/1
 ```
 
+## Bonus
+
+- Install Istio 0.4.0
+
+```bash
+pushd $(mktemp -d)
+echo "Git clone ansible project to install istio distro, project on openshift"
+git clone https://github.com/istio/istio.git && cd istio/install/ansible
+
+export ISTIO_VERSION=0.4.0 #or whatever version you prefer
+export JSON='{"cluster_flavour": "ocp","istio": {"release_tag_name": "0.4.0, "auth": false}}'
+echo "$JSON" > temp.json
+ansible-playbook main.yml -e "@temp.json"
+rm temp.json
+```
 
 
