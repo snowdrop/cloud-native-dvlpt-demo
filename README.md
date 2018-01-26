@@ -19,13 +19,6 @@
                      -c https://github.com/snowdrop/cloud-native-catalog.git
 ```
 
-- Install Ansible Service Catalog
-
-```bash
-oc new-project ansible-service-broker
-curl -s https://raw.githubusercontent.com/openshift/ansible-service-broker/master/templates/deploy-ansible-service-broker.template.yaml | oc process -n "ansible-service-broker" -f - | oc create -f -
-```
-
 ## Test Launcher
 
 Open the `launcher` route hostname
