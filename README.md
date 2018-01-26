@@ -10,7 +10,7 @@
 
 - Install your "my-Launcher"
 
-Replace the `gitUsername` and `gitPassword` with youor github account and git token.
+**NOTE** : Replace the `gitUsername` and `gitPassword` parameters with your `github account` and `git token` in ordet to let the launcher to create a git repo within your org.
 
 ```bash
 ./deploy_launcher.sh -p my-launcher \
