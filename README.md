@@ -4,6 +4,8 @@
 
 - MiniShift created with OCP 3.7.1 and launched using experimental features
 
+The following invocation of `bootstrap_vm.sh` sets up the aforementioned dependencies  
+
 ```bash
 ./bootstrap_vm.sh
 ```
@@ -41,10 +43,10 @@ open $LAUNCH_URL
 
 ![](image/missions.png)
 
-- And the `Spring Boot Runtime`
+- Choose `Spring Boot Runtime`
 - Accept the `Project Info`
-- Finally click on the button Select `Download as zip file`d
-- Unzip the project generated
+- Finally click on the button Select `Download as zip file`
+- Unzip the generated project
 ```bash
 mkdir -p cloud-native-demo
 cd cloud-native-demo
@@ -53,7 +55,7 @@ unzip booster-demo-front-spring-boot.zip
 cd booster-demo-front-spring-boot
 ```
 
-- Build, launch spring-boot locally to test if the front can be used in your browser
+- Build and launch spring-boot application locally to ensure the application can be used in your browser
 ```bash
 mvn clean spring-boot:run 
 open http://localhost:8090
@@ -70,11 +72,12 @@ mvn package fabric8:deploy -Popenshift
 2) Create a MySQL service instance using the Service Catalog
 
 ! Use the Web UI to create the Service and bind it. 
-Alternatively, execute the following command with the backend folder in order to create a serviceInstance for MySQL
+Alternatively, execute the following command using the definition file provided with the backend application (which is the subject of the next step) in order to create a serviceInstance for MySQL
 
 ```bash
 oc create -f openshift/mysql_serviceinstance.yml
 ```
+
 
 3) Use launcher to generate a Cloud Native Demo - Backend zip
    
@@ -84,7 +87,7 @@ oc create -f openshift/mysql_serviceinstance.yml
 
 ![](image/missions.png)
 
-- And the `Spring Boot Runtime`
+- Choose the `Spring Boot Runtime`
 - Accept the `Project Info`
 - Finally click on the button Select `Download as zip file`
 - Unzip the project generated
@@ -113,7 +116,7 @@ oc new-app -f openshift/cloud-native-demo_backend_template.yml
 ```bash
 oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
 ```
-- Wait till the build and deployment are completed !!
+- Wait until the build and deployment complete !!
 
 - Bind the credentials of the ServiceInstances to a Secret
 
@@ -130,7 +133,7 @@ oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
 **NOTE**: If you create the service using the UI, then find the secret name of the DB and next click on the `add to application` button
 to add the secret to the Deployment Config of your application
 
-- Wait till the pod is recreated and then test the service
+- Wait until the pod is recreated and then test the service
 
 ![](image/front-db.png)
 
