@@ -143,6 +143,34 @@ curl -k $BACKEND/api/notes
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
 curl -k $BACKEND/api/notes/1
 ```
+## Enable OpenTracing
+
+1. Install Jaeger on OpenShift to collect the traces
+
+```bash
+oc project jaeger
+oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -
+```
+
+- Create a route to access the Jaeger collector
+
+```bash
+oc expose service jaeger-collector --port=14268 -n jaeger
+```
+
+- Specify next the url address of the Jaeger Collector to be used
+- Get the route address
+
+```bash
+oc get route/jaeger-collector --template={{.spec.host}} -n jaeger 
+```
+    
+Add the following jaeger properties to the application.yml file with the route address of the collector
+
+jaeger:
+  protocol: HTTP
+  sender: http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
+  protocol: 0
 
 ## Bonus
 
