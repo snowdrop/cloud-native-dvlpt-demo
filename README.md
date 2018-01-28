@@ -155,22 +155,21 @@ oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/m
 - Create a route to access the Jaeger collector
 
 ```bash
-oc expose service jaeger-collector --port=14268 -n jaeger
+oc expose service jaeger-collector --port=14268 -n tracing
 ```
 
 - Specify next the url address of the Jaeger Collector to be used
 - Get the route address
 
 ```bash
-oc get route/jaeger-collector --template={{.spec.host}} -n jaeger 
+oc get route/jaeger-collector --template={{.spec.host}} -n tracing 
 ```
     
 Add the following jaeger properties to the application.yml file with the route address of the collector
 
 jaeger:
   protocol: HTTP
-  sender: http://jaeger-collector-jaeger.ocp.spring-boot.osepool.centralci.eng.rdu2.redhat.com/api/traces
-  protocol: 0
+  sender: http://jaeger-collector-tracing.192.168.64.80.nip.io/api/traces
 
 ## Bonus
 
