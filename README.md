@@ -171,6 +171,32 @@ jaeger:
   protocol: HTTP
   sender: http://jaeger-collector-tracing.192.168.64.80.nip.io/api/traces
 
+## Scale front
+
+In order to show horizontal scaling, run then the oc command to scale the DeploymentConfig
+
+```bash
+oc scale --replicas=2 dc cloud-native-front
+```
+
+Then, verify that 2 pods are well running
+
+```bash
+oc get pods -l app=cloud-native-front
+NAME                         READY     STATUS    RESTARTS   AGE
+cloud-native-front-1-2pnbb   1/1       Running   0          3h
+cloud-native-front-1-cc44g   1/1       Running   0          4h
+```
+
+Next, open 2 Web browsers or curl to check that you get a response from on of the round robin called pod
+
+```bash
+http -v http://cloud-native-front-cnd-demo.192.168.64.80.nip.io/ | grep 'id="_http_booster"'
+<h2 id="_http_booster">Frontend at cloud-native-front-1-2pnbb</h2>
+http -v http://cloud-native-front-cnd-demo.192.168.64.80.nip.io/ | grep 'id="_http_booster"'
+<h2 id="_http_booster">Frontend at cloud-native-front-1-cc44g</h2>
+```
+
 ## Bonus
 
 - Install Istio 0.4.0
