@@ -148,7 +148,7 @@ curl -k $BACKEND/api/notes/1
 1. Install Jaeger on OpenShift to collect the traces
 
 ```bash
-oc project jaeger
+oc project tracing
 oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -
 ```
 
