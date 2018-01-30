@@ -213,17 +213,3 @@ ansible-playbook main.yml -e "@temp.json"
 rm temp.json
 ```
 
-## How to tag, push image downloaded to local docker registry
-
-- Tag the docker source image to the target image to be used from the openshift registry
-- Log on to the docker registry using the token of the `admin` user and pass as registry the ip address and port 5000
-  of the OpenShift Docker registry
-- Next push the tagged image to the openshift registry. During this step, an imagestream will be created 
-
-```bash
-docker tag registry.access.redhat.com/rhscl/mysql-57-rhel7:latest 172.30.1.1:5000/cnd-demo/mysql-57:latest
-docker login -u admin -p $(oc whoami -t) 172.30.1.1:5000
-docker push 172.30.1.1:5000/cnd-demo/mysql-57
-```
-
-
