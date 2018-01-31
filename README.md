@@ -138,7 +138,8 @@ to add the secret to the Deployment Config of your application
 ![](image/front-db.png)
 
 ```bash
-export BACKEND=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}' -n cnd-demo)
+#export BACKEND=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}' -n cnd-demo)
+export BACKEND=$(minishift openshift service spring-boot-db-notes -n cnd-demo --url)
 curl -k $BACKEND/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
 curl -k $BACKEND/api/notes/1
@@ -148,7 +149,7 @@ curl -k $BACKEND/api/notes/1
 1. Install Jaeger on OpenShift to collect the traces
 
 ```bash
-oc project tracing
+oc new-project tracing
 oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -
 ```
 
