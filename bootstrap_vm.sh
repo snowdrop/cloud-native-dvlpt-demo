@@ -54,7 +54,8 @@ fi
 if [ ! -d "$ISTIO_PROFILE_DIR" ]; then
   minishift profile set istio
   minishift --profile istio addons install minishift-addons/add-ons/ansible-service-broker
-  minishift --profile istio config set memory 5GB
+  minishift --profile istio config set memory 6GB
+  minishift --profile istio config set cpus 4
   minishift --profile istio config set openshift-version v$OCP_VERSION
   minishift --profile istio config set vm-driver xhyve
   minishift --profile istio addon enable admin-user
