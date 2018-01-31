@@ -18,16 +18,16 @@ OCP_VERSION=${2:-3.7.1}
 IMAGE_CACHE=${3:-false}
 
 docker_images=(
-  istio/istio-ca:$ISTIO_VERSION
-  istio/grafana:$ISTIO_VERSION
-  istio/pilot:$ISTIO_VERSION
-  istio/proxy_debug:$ISTIO_VERSION
-  istio/proxy_init:$ISTIO_VERSION
-  istio/mixer:$ISTIO_VERSION
-  istio/servicegraph:$ISTIO_VERSION
-  prom/statsd-exporter:v0.5.0
-  prom/prometheus:v2.0.0
-  alpine:latest
+#  istio/istio-ca:$ISTIO_VERSION
+#  istio/grafana:$ISTIO_VERSION
+#  istio/pilot:$ISTIO_VERSION
+#  istio/proxy_debug:$ISTIO_VERSION
+#  istio/proxy_init:$ISTIO_VERSION
+#  istio/mixer:$ISTIO_VERSION
+#  istio/servicegraph:$ISTIO_VERSION
+#  prom/statsd-exporter:v0.5.0
+#  prom/prometheus:v2.0.0
+#  alpine:latest
   jaegertracing/all-in-one:latest
   openshift/origin-docker-registry:v$OCP_VERSION
   openshift/origin-haproxy-router:v$OCP_VERSION

@@ -26,7 +26,8 @@ The following invocation of `bootstrap_vm.sh` sets up the aforementioned depende
 Open the `launcher` route hostname
 
 ```bash
-LAUNCH_URL="http://$(oc get route/launchpad-nginx -n my-launcher -o jsonpath="{.spec.host}")"
+# LAUNCH_URL="http://$(oc get route/launchpad-nginx -n my-launcher -o jsonpath="{.spec.host}")"
+LAUNCH_URL=$(minishift openshift service launchpad-nginx -n my-launcher --url)
 open $LAUNCH_URL
 ```
 
@@ -39,7 +40,7 @@ open $LAUNCH_URL
 ![](image/launcher.png)
 
 - Within the deployment type screen, click on the button `I will build and run locally`
-- Next, select your mission : `Cloud Native Development - Demo Backend : JPA Persistence`
+- Next, select your mission : `Cloud Native Development - Demo Front`
 
 ![](image/missions.png)
 
