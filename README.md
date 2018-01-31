@@ -84,7 +84,7 @@ oc create -f openshift/mysql_serviceinstance.yml
    
 - From the first screen, click on `launch` button
 - Within the deployment type screen, click on the button `I will build and run locally`
-- Next, select your mission : `Cloud Native Development - Demo Front`
+- Next, select your mission : `Cloud Native Development - Demo Backend : JPA Persistence`
 
 ![](image/missions.png)
 
