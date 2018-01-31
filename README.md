@@ -108,7 +108,6 @@ curl -k http://localhost:8080/api/notes/1
 
 - Deploy the application on the cloud platform using the `s2i` build process
 ```bash
-oc new-project cnd-demo
 oc new-app -f openshift/cloud-native-demo_backend_template.yml
 ```
 
