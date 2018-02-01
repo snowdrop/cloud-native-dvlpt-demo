@@ -200,7 +200,7 @@ http -v http://cloud-native-front-cnd-demo.192.168.64.80.nip.io/ | grep 'id="_ht
 
 ## Bonus
 
-- Install Istio 0.4.0
+- Install Istio using ansible playbook
 
 ```bash
 pushd $(mktemp -d)
@@ -208,7 +208,7 @@ echo "Git clone ansible project to install istio distro, project on openshift"
 git clone https://github.com/istio/istio.git && cd istio/install/ansible
 
 export ISTIO_VERSION=0.4.0 #or whatever version you prefer
-export JSON='{"cluster_flavour": "ocp","istio": {"release_tag_name": "0.4.0, "auth": false}}'
+export JSON='{"cluster_flavour": "ocp","istio": {"release_tag_name": "'"$ISTIO_VERSION"'", "auth": false}}'
 echo "$JSON" > temp.json
 ansible-playbook main.yml -e "@temp.json"
 rm temp.json

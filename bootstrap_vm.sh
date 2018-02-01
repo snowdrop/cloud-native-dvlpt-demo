@@ -5,29 +5,17 @@
 # ./bootstrap_vm.sh [COMMANDS]
 #
 # where commands are:
-# istio version       Version of istio to be used. Default to 0.4.0
-# ocp version         Version of OpenShift Origin. Default to : 3.7.1
 # imageCache          Enable or disable to use docker images cached on the local user's disk. Default is false
+# ocp version         Version of OpenShift Origin. Default to : 3.7.1
 #
-# ./bootstrap_vm.sh 0.4.0 3.7.1 true
+# ./bootstrap_vm.sh true 3.7.1
 #
 
-ISTIO_PROFILE_DIR="$HOME/.minishift/profiles/istio"
-ISTIO_VERSION=${1:-0.4.0}
+DEMO_PROFILE_DIR="$HOME/.minishift/profiles/demo"
+IMAGE_CACHE=${1:-false}
 OCP_VERSION=${2:-3.7.1}
-IMAGE_CACHE=${3:-false}
 
 docker_images=(
-#  istio/istio-ca:$ISTIO_VERSION
-#  istio/grafana:$ISTIO_VERSION
-#  istio/pilot:$ISTIO_VERSION
-#  istio/proxy_debug:$ISTIO_VERSION
-#  istio/proxy_init:$ISTIO_VERSION
-#  istio/mixer:$ISTIO_VERSION
-#  istio/servicegraph:$ISTIO_VERSION
-#  prom/statsd-exporter:v0.5.0
-#  prom/prometheus:v2.0.0
-#  alpine:latest
   jaegertracing/all-in-one:latest
   openshift/origin-docker-registry:v$OCP_VERSION
   openshift/origin-haproxy-router:v$OCP_VERSION
@@ -51,15 +39,15 @@ if [ ! -d "minishift-addons" ]; then
   git clone -b asb-updates https://github.com/eriknelson/minishift-addons.git
 fi
 
-if [ ! -d "$ISTIO_PROFILE_DIR" ]; then
-  minishift profile set istio
-  minishift --profile istio addons install minishift-addons/add-ons/ansible-service-broker
-  minishift --profile istio config set memory 6GB
-  minishift --profile istio config set cpus 4
-  minishift --profile istio config set openshift-version v$OCP_VERSION
-  minishift --profile istio config set vm-driver xhyve
-  minishift --profile istio addon enable admin-user
-  minishift --profile istio addon enable ansible-service-broker
+if [ ! -d "$demo_PROFILE_DIR" ]; then
+  minishift profile set demo
+  minishift --profile demo addons install minishift-addons/add-ons/ansible-service-broker
+  minishift --profile demo config set memory 6GB
+  minishift --profile demo config set cpus 4
+  minishift --profile demo config set openshift-version v$OCP_VERSION
+  minishift --profile demo config set vm-driver xhyve
+  minishift --profile demo addon enable admin-user
+  minishift --profile demo addon enable ansible-service-broker
 fi
 
 minishift config set image-caching true
@@ -68,7 +56,7 @@ if [ "$IMAGE_CACHE" = true ] ; then
   minishift image cache-config add $IMAGES
 fi
 
-MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --profile istio --service-catalog --iso-url centos
+MINISHIFT_ENABLE_EXPERIMENTAL=y minishift start --profile demo --service-catalog --iso-url centos
 
 if [ "$IMAGE_CACHE" = true ] ; then
   # Export images to be sure to have a backup locally
