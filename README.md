@@ -4,14 +4,14 @@
 
 - MiniShift created with OCP 3.7.1 and launched using experimental features
 
-The following invocation of `bootstrap_vm.sh true` sets up a `demo` profile, new vm, install the docker image
-within the registry 
+The following invocation of `bootstrap_vm.sh <image_cache> <ocp_version>` sets up a `demo` profile, new vm, install the docker image
+within the registry according to the ocp version defined
 
 ```bash
-./bootstrap_vm.sh
+./bootstrap_vm.sh true 3.7.1
 ```
 
-**NOTE** : When the vm has been started, then it can stopped/started using the commands `minishift stop|start --profile demo`
+**NOTE** : When the vm has been created, then it can stopped/started using the commands `minishift stop|start --profile demo`
 
 - Install your "my-Launcher"
 
