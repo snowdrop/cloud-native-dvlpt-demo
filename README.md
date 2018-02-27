@@ -15,7 +15,7 @@ within the registry according to the ocp version defined
 
 - Install your "my-Launcher"
 
-**NOTE** : Replace the `gitUsername` and `gitPassword` parameters with your `github account` and `git token` in ordet to let the launcher to create a git repo within your org.
+**NOTE** : Replace the `gitUsername` and `gitPassword` parameters with your `github account` and `git token` in order to let the launcher to create a git repo within your org.
 
 ```bash
 ./deploy_launcher.sh -p my-launcher \
@@ -199,6 +199,47 @@ http -v http://cloud-native-front-cnd-demo.192.168.64.80.nip.io/ | grep 'id="_ht
 <h2 id="_http_booster">Frontend at cloud-native-front-1-2pnbb</h2>
 http -v http://cloud-native-front-cnd-demo.192.168.64.80.nip.io/ | grep 'id="_http_booster"'
 <h2 id="_http_booster">Frontend at cloud-native-front-1-cc44g</h2>
+```
+
+## S2I Build using pipeline
+
+- Create a `jenkinsfile` under the backend project
+
+```bash
+cat > jenkinsfile <<'EOL'
+podTemplate(name: 'maven33', label: 'maven33', cloud: 'openshift', serviceAccount: 'jenkins', containers: [
+    containerTemplate(name: 'jnlp',
+        image: 'openshift/jenkins-slave-maven-centos7',
+        workingDir: '/tmp',
+        envVars: [
+            envVar(key: 'MAVEN_MIRROR_URL',value: 'http://nexus-myproject.192.168.64.91.nip.io/nexus/content/groups/public/')
+        ],
+        cmd: '',
+        args: '${computer.jnlpmac} ${computer.name}')
+]){
+  node("maven33") {
+    checkout scm
+    stage("Test") {
+      sh "mvn test"
+    }
+    stage("Deploy") {
+      sh "mvn  -Popenshift -DskipTests clean fabric8:deploy"
+    }
+  }
+}
+EOL
+```
+
+- Then delete the existing buildConfig
+
+```bash
+oc delete bc/
+```
+
+- Create a new build
+
+```bash
+oc new-build . --strategy=pipeline
 ```
 
 ## Bonus
