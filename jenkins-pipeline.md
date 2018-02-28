@@ -124,10 +124,12 @@ EOF
 oc apply -f rb_jenkins.yaml 
 ```
 
-- Then now, you should be able to see that your pipeline has started and is part of the job `demo/cloud-native-backend` created under the jenkins instance
-  running within the `infra` namespace
+- Then now, you should be able to see that your pipeline has started
 
 ![](image/pipeline-started.png) 
+
+- And that the job `demo/cloud-native-backend` has been created under the jenkins instance
+  running within the `infra` namespace
 
 ![](image/job-created.png) 
 
