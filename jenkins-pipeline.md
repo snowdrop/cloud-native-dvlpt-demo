@@ -64,7 +64,11 @@ oc new-project infra
 oc new-app jenkins-ephemeral -n infra
 oc project demo
 ```
-- Edit the Jenkins configuration - https://jenkins-infra.192.168.64.93.nip.io/configure in order to define the namespace to be scanned, the credentials to be used like the job to be sync
+- Edit the Jenkins configuration - https://jenkins-infra.192.168.64.93.nip.io/configure in order to define weithin the `openshift-sync-plugin` the: 
+  - Namespace to be watched,
+  - Credentials to be used by the `openshift-sync-plugin` to access the pipeline
+  - Pattern of the job to be sync
+  
 - Move to the `openshift-sync-plugin` section and fill the field `namespace` with the name `demo`
 
 ![](image/sync-plugin-1.png)
