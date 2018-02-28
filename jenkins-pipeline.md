@@ -82,9 +82,10 @@ oc serviceaccounts get-token jenkins -n demo
 
 - Within the Jenkins Configuration screen, at the section about `openshift-sync-plugin`, click on the `add` button next to the field `credentials`.
   Select as type `Openshift Token for Openshify Sync Plugin` and copy/paste the token recuperated within the field `token`. Click on the `add` button.
-  Select from the dropdown list of the credentials the entry created.
   
 ![](image/add-token-credential.png)
+
+-  Select from the dropdown list of the credentials the entry created.
 
 ![](image/select-credential.png)  
 
