@@ -233,14 +233,13 @@ EOL
 - Then delete the existing buildConfig
 
 ```bash
-oc delete bc/cloud-native-backend.
+oc delete bc/cloud-native-backend
 ```
 
 - Create a new build
 
 ```bash
-oc new-build --strategy=pipeline https://github.com/snowdrop/cloud-native-backend.git 
-
+oc new-build --strategy=pipeline https://github.com/snowdrop/cloud-native-backend.git
 ```
 
 ## Bonus
