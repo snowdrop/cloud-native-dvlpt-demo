@@ -89,7 +89,7 @@ oc serviceaccounts get-token jenkins -n demo
 
 ![](image/select-credential.png)  
 
-- Specify also under the field `Sync Job Name Pattern`, the name of the `buildconfigs` as prefix to be used : `cloud-native-backend`
+- Specify also under the field `Sync Job Name Pattern`, the name of the `buildconfigs` which is fo us `cloud-native-backend` as patten to be used to sync the job
 
 ![](image/sync-job-pattern.png) 
 
