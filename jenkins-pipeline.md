@@ -1,6 +1,6 @@
 # Instructions to configure pipeline and jenkins installed in a different namespace
 
-- start Minishift
+- Start Minishift using Openshift 3.7
 ```bash
 minishift start
 minishift config set image-caching true
@@ -14,23 +14,23 @@ minishift config view
 oc login -u admin -p admin
 ```
 
-- Create `demo` project
+- Create the `demo` project where the pipeline will be deployed
 
 ```bash
 oc new-project demo
 ```
 
-- Create the jenkins `pipeline` using the `cloud-native-backend` project 
+- Deploy the jenkins `pipeline` using the `Jenkinsfile` part of the github `cloud-native-backend` project 
 
 ```bash
 git clone https://github.com/snowdrop/cloud-native-backend.git && cd cloud-native-backen
 oc new-build --strategy=pipeline https://github.com/snowdrop/cloud-native-backend.git
 ```
 
-- Check if the pipeline starts after that the jenkins server has been deployed locally.
+- Check if the pipeline starts after the jenkins instance has been deployed locally.
 
 - As this is not what we want to do, then we will change the `jenkinsPipelineConfig` config defined within the `master-config.yaml` file 
-  in order to disable the creation of a jenkins instance in an namespace which contains a `pipeline`
+  in order to disable the creation of a jenkins instance in an namespace which contains a `pipeline`.
   
 ```bash
 minishift ssh
