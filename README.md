@@ -130,7 +130,7 @@ oc create -f openshift/mysql-secret_servicebinding.yml
 - Next, mount the secret of the MySQL service to the `Deploymentconfig` of the backend
 
 ```bash
-oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
+oc env --from=secret/spring-boot-notes-mysql-binding dc/cloud-native-backend
 ```
 
 **NOTE**: If you create the service using the UI, then find the secret name of the DB and next click on the `add to application` button
@@ -141,8 +141,8 @@ to add the secret to the Deployment Config of your application
 ![](image/front-db.png)
 
 ```bash
-#export BACKEND=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}' -n cnd-demo)
-export BACKEND=$(minishift openshift service spring-boot-db-notes -n cnd-demo --url)
+#export BACKEND=$(oc get route/cloud-native-backend -o jsonpath='{.spec.host}' -n cnd-demo)
+export BACKEND=$(minishift openshift service cloud-native-backend -n cnd-demo --url)
 curl -k $BACKEND/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
 curl -k $BACKEND/api/notes/1

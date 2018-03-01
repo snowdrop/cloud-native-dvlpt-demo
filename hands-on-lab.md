@@ -88,7 +88,62 @@ unzip booster-demo-front-spring-boot.zip
 cd booster-demo-front-spring-boot
 ```
 
-- TODO - Add steps to code
+- Create `Note` pojo class under `src/main/java/me/snowdrop/cloudnative/front`
+- Define these fields as setter/getter 
+```java
+private Long id;
+private String title;
+private String content;
+private Date createdAt;
+private Date updatedAt;
+```
+
+- Add a `NoteController` class within the same package `me.snowdrop.cloudnative.front`
+- Add these `Spring` annotations to specify the mapping to be used to expose the `note` service as REST endpoint
+```java
+@RestController
+@RequestMapping("note")
+```
+- Add a `NoteGateway noteGateway` field and define it as `private final`
+- Add constructor which accepts as parameter `NoteGateway noteGateway` and set within the body of the constructor the field `this.this.noteGateway`
+- Create the CRUD / all, add, delete,update methods using as annotation respectively these values and return a `Note` or `List<Note>`
+```java
+@GetMapping
+public List<Note> all()
+
+@PutMapping
+public Note add(@RequestBody Note note)
+
+@DeleteMapping("/{id}")
+public DefaultResult delete(@PathVariable("id") long id)
+
+@PostMapping("/{id}")
+public Note update(@PathVariable("id") long id, @RequestBody Note note)
+```
+- Implement the body of each CRUD method to return: 
+  - `noteGateway.all();` content for `all` method
+  - `noteGateway.add(note);` for `add(Note note)`
+  - `noteGateway.update(note);` for `update(long id, Note note)`
+  - `OK` as response message for `long id)`
+
+- Add the interface `NoteGateway` within the saame package
+```java
+public interface NoteGateway {
+    ...
+}
+```
+- Create the CRUD methods signature
+```java
+List<Note> all();
+Note add(Note note);
+Note update(Note note);
+void delete(long id);
+```
+
+- Compile the project
+```java
+mvn clean compile
+```
 
 - Build and launch spring-boot application locally to ensure the application is working
 ```bash
@@ -167,7 +222,7 @@ TODO - Add screenshots
 - Next, mount the secret of the MySQL service to the `Deploymentconfig` of the backend
 
 ```bash
-oc env --from=secret/spring-boot-notes-mysql-binding dc/spring-boot-db-notes
+oc env --from=secret/spring-boot-notes-mysql-binding dc/cloud-native-backend
 ```
 
 TODO - Add screenshots
@@ -180,8 +235,8 @@ to add the secret to the Deployment Config of your application
 ![](image/front-db.png)
 
 ```bash
-#export BACKEND=$(oc get route/spring-boot-db-notes -o jsonpath='{.spec.host}' -n cnd-demo)
-export BACKEND=$(minishift openshift service spring-boot-db-notes -n cnd-demo --url)
+#export BACKEND=$(oc get route/cloud-native-backend -o jsonpath='{.spec.host}' -n cnd-demo)
+export BACKEND=$(minishift openshift service cloud-native-backend -n cnd-demo --url)
 curl -k $BACKEND/api/notes 
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
 curl -k $BACKEND/api/notes/1
