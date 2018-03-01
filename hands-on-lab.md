@@ -247,7 +247,7 @@ curl -k $BACKEND/api/notes/1
 Time: 5-10min
 
 
-### Developp an Arquillian Cube Test
+### Develop an Arquillian Cube Test
 
 Time: 20min
 
