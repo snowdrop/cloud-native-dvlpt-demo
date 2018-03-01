@@ -180,7 +180,16 @@ curl -k $BACKEND/api/notes/1
 ```
 ### Use Distributed Tracing to collect app traces
 
-1. Install Jaeger on OpenShift to collect the traces
+Time : 15min
+
+As we have decomposed the application into 2 microservices, then we will deploy the technology which is required to collect the logs/traces 
+from the different spring boot applications and to aggregate them using a Distributed Tracer backend. 
+We will use the OpenTracing specification implemented by the [Jaeger]() project and available using the [Spring Boot Jaeger starter]()
+For that purpose we will modify the existing applications to instrument them with the Spring Boot Jaeger.
+
+TODO : Check to use only one instance of Jaeger
+
+- Install Jaeger on OpenShift to collect the traces
 
 ```bash
 oc new-project tracing
@@ -229,9 +238,19 @@ oc start-build cloud-native-backend-s2i --from-dir=. --follow
 oc get pods -w
 ```
 
-- Open the 
+- Open within your browser the url/address of the `jaeger` collector - `https://jaeger-collector-infra.HETZNER_IP.nip.io`
+- Using the `cloud-native-front` application, issue send requests against the backend to fetch from the database some `notes`
+- Check within the collector screen that traces have been generated
 
-### Scale front
+TODO : Add screenshots
+
+### Show case horizontal scaling
+
+Time : 5min
+
+The OpenShift platform offers a horizontal scaling feature that we will use within this module of the lab in order
+to expose behind the `cloud-native-front` router address 2 pods. By opening the address of the route of the front application,
+you will be able to see the `pod-name` returned which corresponds to one of the pod loadbalanced by the Kubernetes API.
 
 - In order to showcase/demo horizontal scaling, then you will execute the following `oc` command to scale the DeploymentConfig
   of the `cloud-native-front application`
@@ -260,7 +279,16 @@ http -v http://cloud-native-front-cnd-demo.192.168.64.80.nip.io/ | grep 'id="_ht
 
 ### S2I Build using pipeline
 
-- Create a `jenkinsfile` under the backend project
+Tome : 15min
+
+The Source to Image strategy - aka `s2i` proposes different strategies to build a project on OpenShift. During the previous hands on lab modules, we have 
+used either the mode `Binary` or `Git` as the source of the project to be build by the `s2i` bash script of the image `redhat-openjdk-1.8`.
+
+During this module, you will use the `Pipeline` strategy where a `Jenkinsfilke` containing the build scenario will be created using `Groovy syntax`
+for Jenkins. This file will be deployed on the platform as a new `BuildConfig` in order to ask that Jenkins creates a Job running within a `jnlp java client container`
+the scenario defined as `groovy` script.
+
+- Create a `jenkinsfile` under the `cloud-native-backend` project
 
 ```bash
 cat > jenkinsfile <<'EOL'
@@ -269,7 +297,7 @@ podTemplate(name: 'maven33', label: 'maven33', cloud: 'openshift', serviceAccoun
         image: 'openshift/jenkins-slave-maven-centos7',
         workingDir: '/tmp',
         envVars: [
-            envVar(key: 'MAVEN_MIRROR_URL',value: 'http://nexus-myproject.192.168.64.91.nip.io/nexus/content/groups/public/')
+            envVar(key: 'MAVEN_MIRROR_URL',value: 'http://nexus-myproject.HETZNER_IP.nip.io/nexus/content/groups/public/')
         ],
         cmd: '',
         args: '${computer.jnlpmac} ${computer.name}')
@@ -287,7 +315,7 @@ podTemplate(name: 'maven33', label: 'maven33', cloud: 'openshift', serviceAccoun
 EOL
 ```
 
-- Then delete the existing buildConfig
+- Then delete the previously created buildConfig resource
 
 ```bash
 oc delete bc/cloud-native-backend
@@ -298,6 +326,16 @@ oc delete bc/cloud-native-backend
 ```bash
 oc new-build --strategy=pipeline https://github.com/snowdrop/cloud-native-backend.git
 ```
+
+- Open your project within the OpenShift console and select `Pieplines` under the `Build` screen
+- Look to your pipeline created and check if the build has been started
+- Click on the link `view log` to access to the `jenkins job console`
+- When you will access to the `jenkins` server opened, then use your `user/password` to log on 
+- Accept the permissions change
+- Consult the output of the build
+- When the build is finished, select within your Openshift Console the `overview` screen and access to the newly pod created
+
+TODO : Add screens for jenkins
 
 ## Bonus
 
