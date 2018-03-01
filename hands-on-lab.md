@@ -241,6 +241,17 @@ curl -k $BACKEND/api/notes
 curl -k -H "Content-Type: application/json" -X POST -d '{"title":"My first note","content":"Spring Boot is awesome!"}' $BACKEND/api/notes 
 curl -k $BACKEND/api/notes/1
 ```
+
+### Debug your application
+
+Time: 5-10min
+
+
+### Developp an Arquillian Cube Test
+
+Time: 20min
+
+
 ### Use Distributed Tracing to collect app traces
 
 Time : 15min
