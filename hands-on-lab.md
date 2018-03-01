@@ -23,6 +23,8 @@ TODO - Add ToC (using gh-md-toc hands-on-lab.md)
 
 ### Access to the OpenShift platform
 
+Time: 15min
+
 - Open the OpenShift Cluster within your browser and verify that you can log on to the machine using your user/pwd
 
 Remark: Use the user/pwd and IP address assigned to you
@@ -56,6 +58,8 @@ oc -h
 ```
 
 ### Generate Spring Boot Cloud Native Front project using the launcher
+
+Time: 30 min
 
 - Access to the launcher using the following URL `https://launchpad-my-launcher.HETZNER_IP_ADDRESS.nip.io`
 - From the `launcher application` screen, click on `launch` button
@@ -100,6 +104,8 @@ mvn package fabric8:deploy -Popenshift
 
 ### Create a MySQL service instance using the Service Catalog
 
+Time: 15min
+
 ! Use the Web UI to create the Service and bind it. 
 Alternatively, execute the following command using the definition file provided with the backend application (which is the subject of the next step) in order to create a serviceInstance for MySQL
 
@@ -110,6 +116,8 @@ oc create -f openshift/mysql_serviceinstance.yml
 TODO - Add screenshots
 
 ### Use the launcher to generate a Cloud Native Demo - Backend zip
+
+Time: 15min
    
 - Access to the launcher using the following URL `https://launchpad-my-launcher.HETZNER_IP_ADDRESS.nip.io`
 - From the `launcher application` screen, click on `launch` button
