@@ -244,8 +244,27 @@ curl -k $BACKEND/api/notes/1
 
 ### Debug your application
 
-Time: 5-10min
+Time: 10min
 
+- Edit the `deploymentConfig` to add this env parameter and redeploy the pod
+
+```yaml
+- name: JAVA_ENABLE_DEBUG
+  value: 'true'
+```
+
+- Next run this `oc` command to forward the port traffic to the port exposed by the remote debuggerr
+```bash
+oc port-forward NAME_OF_POD 5005:5005
+```
+
+- Add a breakpoint within the `NoteController` class at the method `getAll`
+
+TODO: Add image
+
+- Start your remote debugger locally at the address `5005`
+- Open the front within your web browser and click on the button to get all the notes
+- Then your remote debugger should stop at the line where the breakpoint has been included
 
 ### Develop an Arquillian Cube Test
 
