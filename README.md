@@ -117,7 +117,7 @@ oc new-app -f openshift/cloud-native-demo_backend_template.yml
 - Start the build using project's source
   
 ```bash
-oc start-build spring-boot-db-notes-s2i --from-dir=. --follow
+oc start-build cloud-native-backend-s2i --from-dir=. --follow
 ```
 - Wait until the build and deployment complete !!
 
