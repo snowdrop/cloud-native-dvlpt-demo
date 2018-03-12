@@ -17,11 +17,3 @@ cd dvlpt-demo
                      -g gitUsername:gitPassword \
                      -c https://github.com/snowdrop/cloud-native-catalog.git
 ```
-
-- Install jaeger
-```bash
-oc login https://46.4.81.220:8443 -u admin -p admin
-oc project infra
-oc process -f https://raw.githubusercontent.com/jaegertracing/jaeger-openshift/master/all-in-one/jaeger-all-in-one-template.yml | oc create -f -
-oc expose service jaeger-collector --port=14268 -n infra
-```
