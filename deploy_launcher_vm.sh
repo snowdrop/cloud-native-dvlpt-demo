@@ -15,7 +15,7 @@ PROJECTNAME="myproject"
 id="developer:developer"
 VERSION="v13"
 
-while getopts p:g:t:i:v:c: option
+while getopts p:g:t:i:v:c:b: option
 do
         case "${option}"
         in
@@ -25,6 +25,7 @@ do
                 t) TOKEN=${OPTARG};;
                 v) VERSION=${OPTARG};;
                 c) CATALOG=${OPTARG};;
+                b) CATALOG_BRANCH=${OPTARG};;
         esac
 done
 
@@ -38,6 +39,7 @@ echo "Github token: ${GITHUB_IDENTITY[1]}"
 echo "Identity: ${IDENTITY[0]}, ${IDENTITY[1]}"
 echo "Version: $VERSION"
 echo "Catalog: $CATALOG"
+echo "Catalog Branch: $CATALOG_BRANCH"
 echo "------------------------------------------"
 
 # Create Project where launcher-mission control will be deployed
@@ -56,7 +58,7 @@ echo "------------------------------------------"
 # -p LAUNCHPAD_KEYCLOAK_REALM=fabric8 \
 echo "------------------ Create launch pad mission application ---------------------"
 oc new-app launchpad -n $PROJECTNAME \
-    -p LAUNCHPAD_BACKEND_CATALOG_GIT_REF="master" \
+    -p LAUNCHPAD_BACKEND_CATALOG_GIT_REF=$CATALOG_BRANCH \
     -p LAUNCHPAD_BACKEND_CATALOG_GIT_REPOSITORY=$CATALOG \
     -p LAUNCHPAD_MISSIONCONTROL_GITHUB_USERNAME=${GITHUB_IDENTITY[0]} \
     -p LAUNCHPAD_MISSIONCONTROL_GITHUB_TOKEN=${GITHUB_IDENTITY[1]} \
