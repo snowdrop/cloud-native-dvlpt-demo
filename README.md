@@ -2,16 +2,18 @@
 
 ## Prerequisite
 
-- MiniShift created with OCP 3.7.1 and launched using experimental features
+- MiniShift created with Openshift Origin 3.7.1, using `ansible-service-broker` addon and started using experimental features
 
-The following invocation of `bootstrap_vm.sh <image_cache> <ocp_version>` sets up a `demo` profile, new vm, install the docker image
+The following invocation of `bootstrap_vm.sh <image_cache> <ocp_version>` sets up a `demo` profile, new vm, install the docker images
 within the registry according to the ocp version defined
 
 ```bash
 ./bootstrap_vm.sh true 3.7.1
 ```
 
-**NOTE** : When the vm has been created, then it can stopped/started using the commands `minishift stop|start --profile demo`
+**NOTE** : The minishift `ansible-service-broker` addon is based on this project `https://github.com/eriknelson/minishift-addons` and branch `asb-updates`
+
+**NOTE** : When the vm has been created, then it can be stopped/started using the commands `minishift stop|start --profile demo`
 
 - Install your "my-Launcher"
 
@@ -21,7 +23,8 @@ within the registry according to the ocp version defined
 ./deploy_launcher.sh -p my-launcher \
                      -i admin:admin \
                      -g gitUsername:gitPassword \
-                     -c https://github.com/snowdrop/cloud-native-catalog.git
+                     -c https://github.com/snowdrop/cloud-native-catalog.git \
+                     -b master
 ```
 
 ## Test Launcher
@@ -240,21 +243,5 @@ oc delete bc/cloud-native-backend
 
 ```bash
 oc new-build --strategy=pipeline https://github.com/snowdrop/cloud-native-backend.git
-```
-
-## Bonus
-
-- Install Istio using ansible playbook
-
-```bash
-pushd $(mktemp -d)
-echo "Git clone ansible project to install istio distro, project on openshift"
-git clone https://github.com/istio/istio.git && cd istio/install/ansible
-
-export ISTIO_VERSION=0.4.0 #or whatever version you prefer
-export JSON='{"cluster_flavour": "ocp","istio": {"release_tag_name": "'"$ISTIO_VERSION"'", "auth": false}}'
-echo "$JSON" > temp.json
-ansible-playbook main.yml -e "@temp.json"
-rm temp.json
 ```
 
